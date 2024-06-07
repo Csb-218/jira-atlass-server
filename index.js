@@ -12,9 +12,9 @@ const JIRA_API_TOKEN = process.env.JIRA_API_TOKEN
 const jiraDomain = process.env.JIRA_DOMAIN;
 const email = process.env.JIRA_EMAIL;
 
-const jql = "status%20in%20(%22In%20progress%22%2C%20%22To%20do%22)%20OR%20assignee%20%3D%20currentUser()%20order%20by%20status";
+const jql = "project%20%3D%20HSP";
 
-const apiUrl = `https://${jiraDomain}/rest/api/3/search?jql=${jql}`;
+const apiUrl = `https://${jiraDomain}/rest/api/3/search?`;
 
 app.use(cors());
 app.listen(PORT, () => {
@@ -24,6 +24,7 @@ app.listen(PORT, () => {
 app.get('/', (req, res) => {
     res.send('hello world')
 })
+
 
 app.get('/issues/all', async (req, res) => {
 
@@ -36,21 +37,10 @@ app.get('/issues/all', async (req, res) => {
         },
     });
 
-
+    console.log(response?.data)
 
     const {data} = await response;
-    const { issues } = data;
-
-    let cleanedIssues = [];
-    issues.forEach((issue) => {
-        const issueData = {
-            id: issue.id,
-            projectName: issue.fields.project.name,
-            status: issue.fields.status.name,
-            deadline: issue.fields.duedate,
-        };
-        cleanedIssues.push(issueData);
-    });
-    res.status(200).json(data);
+    
+    res.status(200).json({ issues: data});
 })
 
