@@ -14,7 +14,7 @@ const email = process.env.JIRA_EMAIL;
 
 const jql = "project%20%3D%20HSP";
 
-const apiUrl = `https://${jiraDomain}/rest/api/3/search?`;
+const apiUrl = `https://${jiraDomain}/rest/api/3/search`;
 
 app.use(cors());
 app.listen(PORT, () => {
